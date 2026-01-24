@@ -1,0 +1,715 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Koh Phangan Journey Map</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --bg: #0b1020;
+        --panel: rgba(19, 27, 52, 0.85);
+        --panel-strong: rgba(26, 36, 70, 0.95);
+        --text: #e8ecff;
+        --muted: #a9b4d0;
+        --accent: #7dd3fc;
+        --accent-strong: #38bdf8;
+        --border: rgba(148, 163, 255, 0.2);
+        --shadow: 0 20px 45px rgba(7, 10, 25, 0.55);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+          sans-serif;
+        background: radial-gradient(1200px 600px at 80% -10%, rgba(56, 189, 248, 0.18), transparent 60%),
+          radial-gradient(900px 500px at -10% 10%, rgba(99, 102, 241, 0.2), transparent 65%),
+          var(--bg);
+        color: var(--text);
+        line-height: 1.6;
+      }
+
+      header {
+        padding: 72px clamp(20px, 6vw, 72px) 48px;
+        position: relative;
+        overflow: hidden;
+      }
+
+      header::after {
+        content: "";
+        position: absolute;
+        inset: auto -120px -180px auto;
+        width: 420px;
+        height: 420px;
+        background: radial-gradient(circle, rgba(125, 211, 252, 0.28), transparent 70%);
+        filter: blur(2px);
+        pointer-events: none;
+      }
+
+      .hero {
+        max-width: 1100px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+        gap: clamp(28px, 5vw, 60px);
+        align-items: center;
+      }
+
+      .eyebrow {
+        text-transform: uppercase;
+        letter-spacing: 0.12em;
+        font-weight: 700;
+        color: var(--accent);
+        font-size: 0.78rem;
+        margin-bottom: 14px;
+      }
+
+      h1 {
+        font-size: clamp(2.6rem, 5vw, 4rem);
+        margin: 0 0 14px;
+        line-height: 1.05;
+        letter-spacing: -0.02em;
+      }
+
+      .lead {
+        color: var(--muted);
+        max-width: 58ch;
+        margin-bottom: 24px;
+        font-size: 1.05rem;
+      }
+
+      .hero-card {
+        padding: clamp(20px, 3vw, 30px);
+        border: 1px solid var(--border);
+        border-radius: 22px;
+        background: var(--panel);
+        box-shadow: var(--shadow);
+        display: grid;
+        gap: 14px;
+      }
+
+      .hero-card strong {
+        font-size: 1.15rem;
+      }
+
+      .hero-card small {
+        color: var(--muted);
+      }
+
+      main {
+        padding: 0 clamp(20px, 6vw, 72px) 96px;
+        max-width: 1200px;
+        margin: 0 auto;
+        display: grid;
+        gap: 56px;
+      }
+
+      section {
+        background: var(--panel);
+        border: 1px solid var(--border);
+        border-radius: 24px;
+        padding: clamp(24px, 4vw, 40px);
+        box-shadow: var(--shadow);
+      }
+
+      section h2 {
+        margin: 0 0 8px;
+        font-size: clamp(1.7rem, 3vw, 2.3rem);
+        letter-spacing: -0.01em;
+      }
+
+      section > p {
+        margin-top: 0;
+        color: var(--muted);
+      }
+
+      .map-wrap {
+        display: grid;
+        gap: 16px;
+      }
+
+      .map-frame {
+        width: 100%;
+        min-height: clamp(340px, 55vh, 520px);
+        border-radius: 18px;
+        border: 1px solid var(--border);
+        overflow: hidden;
+        background: var(--panel-strong);
+      }
+
+      .map-frame iframe {
+        width: 100%;
+        height: 100%;
+        border: 0;
+      }
+
+      .map-note {
+        color: var(--muted);
+        font-size: 0.95rem;
+      }
+
+      .stage-grid {
+        display: grid;
+        gap: 28px;
+      }
+
+      .stage-card {
+        padding: clamp(18px, 3vw, 26px);
+        border: 1px solid var(--border);
+        border-radius: 20px;
+        background: linear-gradient(160deg, rgba(56, 189, 248, 0.12), rgba(15, 23, 42, 0.65));
+        display: grid;
+        gap: 16px;
+      }
+
+      .stage-card header {
+        padding: 0;
+      }
+
+      .stage-title {
+        display: flex;
+        align-items: baseline;
+        gap: 10px;
+        flex-wrap: wrap;
+      }
+
+      .stage-title h3 {
+        margin: 0;
+        font-size: 1.45rem;
+      }
+
+      .stage-title span {
+        font-size: 0.9rem;
+        color: var(--accent);
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        font-weight: 700;
+      }
+
+      ul.location-list {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: grid;
+        gap: 12px;
+      }
+
+      .location-item {
+        padding: 14px 16px;
+        border-radius: 14px;
+        border: 1px solid rgba(148, 163, 255, 0.18);
+        background: rgba(15, 23, 42, 0.7);
+        display: grid;
+        gap: 6px;
+      }
+
+      .location-item strong {
+        font-size: 1.02rem;
+      }
+
+      .location-item p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 0.98rem;
+      }
+
+      .links {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px 14px;
+        margin-top: 4px;
+      }
+
+      .links a {
+        color: var(--accent);
+        font-weight: 600;
+        text-decoration: none;
+      }
+
+      .links a:hover,
+      .links a:focus-visible {
+        color: var(--accent-strong);
+        text-decoration: underline;
+      }
+
+      footer {
+        padding: 40px clamp(20px, 6vw, 72px) 64px;
+        color: var(--muted);
+        text-align: center;
+        font-size: 0.95rem;
+      }
+
+      @media (max-width: 900px) {
+        .hero {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="hero">
+        <div>
+          <div class="eyebrow">A mythic route across Koh Phangan</div>
+          <h1>All locations in one journey map</h1>
+          <p class="lead">
+            This single-page guide lays out every location from the journey spreadsheet, grouped by
+            stage and paired with quick map links so you can explore, plan, and navigate with
+            clarity.
+          </p>
+        </div>
+        <aside class="hero-card">
+          <strong>62 locations · 10 stages · 1 island</strong>
+          <small>
+            Use the map to orient yourself, then dive into each stage for descriptions, mood, and
+            direct Google Maps searches.
+          </small>
+        </aside>
+      </div>
+    </header>
+
+    <main>
+      <section aria-labelledby="map-title">
+        <h2 id="map-title">Island map view</h2>
+        <p>
+          The map centers on Koh Phangan. Click through to a location from the stages below to open
+          its Google Maps search in a new tab.
+        </p>
+        <div class="map-wrap">
+          <div class="map-frame">
+            <iframe
+              title="Koh Phangan map"
+              loading="lazy"
+              referrerpolicy="no-referrer-when-downgrade"
+              src="https://www.google.com/maps?q=Koh%20Phangan%20Thailand&output=embed"
+            ></iframe>
+          </div>
+          <div class="map-note">
+            Tip: every location includes a “Maps search” link so you can jump directly from the
+            stage list into navigation.
+          </div>
+        </div>
+      </section>
+
+      <section aria-labelledby="stages-title">
+        <h2 id="stages-title">Stages and locations</h2>
+        <p>All locations from the sheet, preserved with their descriptions and grouped by stage.</p>
+        <div id="stage-grid" class="stage-grid"></div>
+      </section>
+    </main>
+
+    <footer>
+      Built as a single-file website for quick sharing and offline-friendly planning.
+    </footer>
+
+    <script>
+      const stages = [
+        {
+          stage: "1",
+          name: "Home",
+          locations: [
+            {
+              name: "Hin Kong Sandflats",
+              description: "Flat ground, open visibility, and effortless grounding at low tide."
+            },
+            {
+              name: "Thong Sala Navy Ship",
+              description: "Stable concrete jetty by the HTMS Phangan; civilization's edge."
+            },
+            {
+              name: "Wat Phu Khao Noi",
+              description:
+                "Oldest temple on the island; calm, local, and non-touristy \"arrive and sit\" energy."
+            },
+            {
+              name: "Ban Tai Beach/Backroads",
+              description:
+                "Quiet coconut lanes and small-farm areas reflecting normal island life."
+            },
+            {
+              name: "Ao Nai Wok Bay",
+              description:
+                "Extremely shallow harbor bar that eliminates the primal fear of the deep."
+            },
+            {
+              name: "Laem Son Lake",
+              description:
+                "Freshwater oasis surrounded by pines; evokes a sense of \"forest safety\"."
+            },
+            {
+              name: "Chaloklum Fishing Pier",
+              description:
+                "A community anchor defined by the rhythm of traditional work."
+            },
+            {
+              name: "Chedi Wat Nai",
+              description: "Small, shady, and contemplative \"quiet start point\"."
+            },
+            {
+              name: "Wok Tum Beach",
+              description: "Calm west coast beach with easy parking and gentle entry."
+            }
+          ]
+        },
+        {
+          stage: "2",
+          name: "The Call",
+          locations: [
+            {
+              name: "Yang Na Yai Tree",
+              description:
+                "Thailand's tallest tree (400+ yrs); a towering mentor that \"speaks\"."
+            },
+            {
+              name: "Wat Madeua Wan",
+              description: "Intricate Naga stairs act as a guide for a symbolic ascent."
+            },
+            {
+              name: "Kuan Yin Temple",
+              description:
+                "Goddess of Mercy temple; the upper terrace provides a \"map\" for the journey."
+            },
+            {
+              name: "Wat Pa Saeng Tham",
+              description:
+                "Hidden \"Golden Rock\" in the jungle; a center for meditation and discovery."
+            },
+            {
+              name: "Wat Sri Thanu",
+              description:
+                "Small temple that speaks through its peaceful, silent presence."
+            },
+            {
+              name: "Haad Son Viewpoint",
+              description: "Overlooks the turquoise bay; a signal from above to look outward."
+            },
+            {
+              name: "Haad Wai Nam Ledge",
+              description:
+                "Short jungle path leads to a ledge for a \"signal from above\" moment."
+            }
+          ]
+        },
+        {
+          stage: "3",
+          name: "Refusal",
+          locations: [
+            {
+              name: "Bottle Beach Trail (Start)",
+              description:
+                "Narrow, dark path with obstacles from roots and rocks; creates doubt."
+            },
+            {
+              name: "Haad Yuan Trail (Initial)",
+              description:
+                "Steep, rooty climb that tests resolve immediately."
+            },
+            {
+              name: "Haad Thong Reng Bridge",
+              description:
+                "Requires crossing a rickety bridge and passing abandoned ruins."
+            },
+            {
+              name: "Khao Ra Trail (Lower)",
+              description:
+                "Narrow paths through dense jungle; requires determination to enter."
+            },
+            {
+              name: "Phang Waterfall Rocks",
+              description: "Slippery, challenging terrain that forces careful navigation."
+            },
+            {
+              name: "Utopia Ruins",
+              description: "Concrete skeletons of a failed path; a warning of hubris and failure."
+            },
+            {
+              name: "Wok Tum Mangroves",
+              description: "Tangled roots and dark mud that physically mirror \"getting stuck\"."
+            }
+          ]
+        },
+        {
+          stage: "4",
+          name: "Threshold",
+          locations: [
+            {
+              name: "Koh Ma Sandbar",
+              description:
+                "A literal line you physically cross between two islands."
+            },
+            {
+              name: "Than Sadet Bridge",
+              description:
+                "Rickety bridge crossing separates the \"safe\" park from the wild."
+            },
+            {
+              name: "Wang Sai Bridge",
+              description:
+                "Suspension bridge over a void; triggers adrenaline."
+            },
+            {
+              name: "Haad Yuan Ridge",
+              description:
+                "The definitive divide between noisy Haad Rin and the secluded sanctuary."
+            },
+            {
+              name: "Wat Samai Kongka Gate",
+              description:
+                "Entrance to the Hell Garden; a symbolic descent into hard truths."
+            }
+          ]
+        },
+        {
+          stage: "5",
+          name: "The Forest",
+          locations: [
+            {
+              name: "Khao Ra Jungle",
+              description:
+                "Dense canopy and deafening cicada sounds filter the light into a haze."
+            },
+            {
+              name: "Than Sadet Trails",
+              description:
+                "Interior loop trails through vines, ferns, and orchids; \"losing the map\"."
+            },
+            {
+              name: "Wang Sai Bamboo Forest",
+              description:
+                "Giant bamboo grove; repetitive visual field and creaking sounds."
+            },
+            {
+              name: "Than Sadet Riverbed",
+              description:
+                "Scrambling over granite boulders upstream; \"inner exploration\"."
+            },
+            {
+              name: "Pho Dang Waterfall",
+              description:
+                "Hidden nooks and pools perfect for exploration mode."
+            },
+            {
+              name: "Haad Nang (Lost Beach)",
+              description:
+                "Barely visible paths reclaimed by ferns; requires hyper-focus."
+            }
+          ]
+        },
+        {
+          stage: "6",
+          name: "Allies",
+          locations: [
+            {
+              name: "Wang Sai Blue Pools",
+              description:
+                "Refreshing gathering-friendly spot where travelers sit in circles."
+            },
+            {
+              name: "Zen Beach",
+              description:
+                "Ephemeral sunset gathering for drummers and the conscious community."
+            },
+            {
+              name: "Wat Pho Herbal Sauna",
+              description:
+                "Authentic wood-fired sauna; communal healing and shared relief."
+            },
+            {
+              name: "Secret Beach Reef",
+              description:
+                "Nature as an ally; inter-species connection with marine life."
+            },
+            {
+              name: "The Sanctuary",
+              description:
+                "Community-oriented, bohemian sanctuary reachable only by boat or trek."
+            },
+            {
+              name: "Paradise Waterfall",
+              description:
+                "Natural meeting point with pools and shade for support."
+            }
+          ]
+        },
+        {
+          stage: "7",
+          name: "Trials",
+          locations: [
+            {
+              name: "Khao Ra Summit Push",
+              description:
+                "Relentless final ascent to 627m; tests physical and mental fortitude."
+            },
+            {
+              name: "Haad Khom Coast Trail",
+              description:
+                "Scramble over sharp granite rocks and uneven terrain; demands focus."
+            },
+            {
+              name: "Bottle Beach Rock",
+              description:
+                "Final scramble up a rock face with no rails; tests fear of heights."
+            },
+            {
+              name: "Khao Baan Fai Mai",
+              description:
+                "Strenuous uphill trek in heat exposure and scrambling conditions."
+            },
+            {
+              name: "Dom Sila Ascent",
+              description: "Continuous uphill travel with just a few rests."
+            },
+            {
+              name: "Muay Thai Training",
+              description:
+                "Warrior archetype trial; demands full engagement and sweat."
+            },
+            {
+              name: "Wat Khao Tham Caves",
+              description:
+                "Natural rock overhangs for deep, silent introspection in the void."
+            }
+          ]
+        },
+        {
+          stage: "8",
+          name: "The Beast",
+          locations: [
+            {
+              name: "Hell Garden",
+              description:
+                "Visceral statues of Buddhist hell realms; confronts fear directly."
+            },
+            {
+              name: "Thong Reng Ruins",
+              description:
+                "Eerie abandoned resort bungalows; a meditation on mortality and entropy."
+            },
+            {
+              name: "Phaeng Upper Pool",
+              description:
+                "Secluded, private area enclosed by jungle for truth talk."
+            },
+            {
+              name: "Ang Thong Caves",
+              description: "Massive limestone caves; deep, enclosed, and intense."
+            },
+            {
+              name: "Dark Jungle Night Walk",
+              description:
+                "Sensory shift to total darkness; reliance on intuition and primal fear."
+            }
+          ]
+        },
+        {
+          stage: "9",
+          name: "Treasure",
+          locations: [
+            {
+              name: "Bottle Beach Viewpoint",
+              description:
+                "Ultimate perspective; expansion and reward after physical struggle."
+            },
+            {
+              name: "Dom Sila Viewpoint",
+              description:
+                "Clarity of the whole island's geography; airy and expansive."
+            },
+            {
+              name: "Kuan Yin Terrace",
+              description:
+                "Commanding view of Chaloklum; represents peace and high insight."
+            },
+            {
+              name: "Bottle Beach Sands",
+              description:
+                "Arriving at pure white sands; the tangible reward for the trial."
+            },
+            {
+              name: "Sunrise at Haad Rin",
+              description:
+                "The light element is strongest here; symbolizes rebirth and renewal."
+            }
+          ]
+        },
+        {
+          stage: "10",
+          name: "Return",
+          locations: [
+            {
+              name: "Hin Kong (Return)",
+              description:
+                "Closing the loop; the traveler is changed, though the flats are the same."
+            },
+            {
+              name: "Mae Haad Sandbar",
+              description:
+                "Walking between worlds; bridge between the spiritual and ordinary."
+            },
+            {
+              name: "Wat Rat Charoen",
+              description:
+                "Community hub; reintegration into the human community and daily life."
+            },
+            {
+              name: "Thong Sala Market",
+              description:
+                "Saturday walking street; sharing the boon through grounded joy."
+            },
+            {
+              name: "Haad Salad Beach",
+              description:
+                "Family-friendly and peaceful; stable space for final reflection."
+            }
+          ]
+        }
+      ];
+
+      const makeMapsUrl = (name) =>
+        `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(name + ", Koh Phangan, Thailand")}`;
+
+      const stageGrid = document.querySelector("#stage-grid");
+
+      stages.forEach((stage) => {
+        const card = document.createElement("article");
+        card.className = "stage-card";
+
+        const header = document.createElement("header");
+        header.className = "stage-title";
+        header.innerHTML = `<span>Stage ${stage.stage}</span><h3>${stage.name}</h3>`;
+
+        const list = document.createElement("ul");
+        list.className = "location-list";
+
+        stage.locations.forEach((location) => {
+          const item = document.createElement("li");
+          item.className = "location-item";
+
+          const mapsUrl = makeMapsUrl(location.name);
+
+          item.innerHTML = `
+            <strong>${location.name}</strong>
+            <p>${location.description}</p>
+            <div class="links">
+              <a href="${mapsUrl}" target="_blank" rel="noopener noreferrer">Maps search</a>
+            </div>
+          `;
+
+          list.appendChild(item);
+        });
+
+        card.append(header, list);
+        stageGrid.appendChild(card);
+      });
+    </script>
+  </body>
+</html>
